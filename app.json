@@ -1,25 +1,48 @@
 {
   "expo": {
-    "name": "PCManiaApp",
-    "slug": "PCManiaApp",
+    "name": "PCMania Admin",
+    "slug": "pcmania-admin",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "backgroundColor": "#0f172a",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "al.pcmania.admin"
     },
     "android": {
+      "package": "al.pcmania.admin",
+      "versionCode": 1,
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#0f172a",
         "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
+      "permissions": ["android.permission.POST_NOTIFICATIONS", "android.permission.VIBRATE"],
       "predictiveBackGestureEnabled": false
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-secure-store",
+      "expo-background-task",
+      [
+        "expo-notifications",
+        {
+          "color": "#f59e0b",
+          "defaultChannel": "orders"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
+    ]
   }
 }

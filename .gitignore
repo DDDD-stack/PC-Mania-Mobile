@@ -39,3 +39,14 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# built APK: 34 MB per build does not belong in git. It is uploaded to the
+# website instead (Admin > Aplikacioni) and downloaded from there onto the phone.
+PCMania-Admin.apk
+*.apk
+
+# expo export output used for browser testing
+dist-web/
+
+# local agent settings
+.claude/
