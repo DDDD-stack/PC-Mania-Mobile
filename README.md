@@ -54,6 +54,22 @@ phones. To publish on Google Play, create an upload keystore and configure relea
 - The app allows plain `http://` so it can reach a PC on the local network during testing. Use `https://` for the live
   server — the token travels in every request.
 
+## Starting the server for the phone
+
+The app talks to the PCMania server. To run that server on this PC so the phone can reach
+it over Wi-Fi, use `start-server-for-phone.cmd` (double-click, or pass a port:
+`start-server-for-phone.cmd 8071`).
+
+It does not contain the server - that lives in its own repository - it finds the checkout
+and hands over to it. Clone the server next to this folder:
+
+```bash
+git clone https://github.com/DDDD-stack/PC-Mania.git
+```
+
+or point at it with `set "PCMANIA_SERVER=C:path	oPC-Mania"` first. The server prints the
+address to type into the app's **Serveri** field; phone and PC must be on the same Wi-Fi.
+
 ## Working on another machine
 
 ```bash
