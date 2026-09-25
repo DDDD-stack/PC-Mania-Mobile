@@ -1,0 +1,15 @@
+# Keeps the checkout identical on both machines; without it a clone elsewhere can
+# show every file as modified purely because of line endings.
+* text=auto eol=lf
+
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ttf binary
+*.otf binary
+*.apk binary
+*.keystore binary
+*.jks binary
