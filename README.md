@@ -67,7 +67,7 @@ and hands over to it. Clone the server next to this folder:
 git clone https://github.com/DDDD-stack/PC-Mania.git
 ```
 
-or point at it with `set "PCMANIA_SERVER=C:path	oPC-Mania"` first. The server prints the
+or point at it with `set "PCMANIA_SERVER=C:\path\to\PC-Mania"` first. The server prints the
 address to type into the app's **Serveri** field; phone and PC must be on the same Wi-Fi.
 
 ## Working on another machine
