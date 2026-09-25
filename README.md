@@ -53,3 +53,21 @@ phones. To publish on Google Play, create an upload keystore and configure relea
   on the server.
 - The app allows plain `http://` so it can reach a PC on the local network during testing. Use `https://` for the live
   server — the token travels in every request.
+
+## Working on another machine
+
+```bash
+git clone <repository-url> && cd PCManiaApp
+npm install
+npx expo prebuild --platform android   # regenerates android/, which is not committed
+npx expo run:android                   # or build a release APK, see below
+```
+
+`android/` and `ios/` are generated from `app.json` and stay out of the repository, so they have
+to be recreated after a clone. Everything that matters is declared there — the package name, the
+notification channel, and `usesCleartextTraffic` for reaching a development server over plain
+http on the local network — so `prebuild` reproduces a working project with nothing to patch by
+hand afterwards.
+
+The built APK is not committed either. Upload it to the website at **Admin > Aplikacioni** and
+download it onto the phone from there.
