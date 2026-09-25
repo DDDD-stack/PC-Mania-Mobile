@@ -11,7 +11,7 @@ It talks to the PCMania Spring Boot server through the token API at `/api/v1` (s
 1. Copy `PCMania-Admin.apk` to the phone and open it. Android asks to allow installs from that source once.
 2. Open **PCMania Admin** and sign in:
    - **Serveri** – the site's address, e.g. `pcmania.al` (https is assumed), or for testing on your Wi‑Fi the PC's
-     local IP with port, e.g. `192.168.1.10:8080`.
+     local IP with port, e.g. `192.168.1.10:8070`.
    - **Përdoruesi / Fjalëkalimi** – the same admin account as `/admin` on the website.
 3. Allow notifications when asked.
 
