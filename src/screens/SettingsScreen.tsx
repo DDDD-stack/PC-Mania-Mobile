@@ -15,7 +15,7 @@ import { useLayout } from '../useLayout';
 
 export default function SettingsScreen() {
   const api = useApi();
-  const { session, signOut, invalidate } = useSession();
+  const { session, signOut, invalidate, builtIn } = useSession();
   const toast = useToast();
   const [notify, setNotify] = useState(true);
   const [status, setStatus] = useState<NotificationStatus | null>(null);
@@ -118,7 +118,9 @@ export default function SettingsScreen() {
       <FadeIn>
         <SectionTitle>Llogaria</SectionTitle>
         <Card>
-          <View style={styles.line}><User size={18} color={colors.textMuted} /><Text style={font.body}>{session?.username}</Text></View>
+          <View style={styles.line}><User size={18} color={colors.textMuted} />
+            <Text style={font.body}>{builtIn ? 'Hyrje automatike (çelës i aplikacionit)' : session?.username}</Text>
+          </View>
           <View style={styles.line}><Server size={18} color={colors.textMuted} />
             <Text style={[font.body, { flex: 1 }]} numberOfLines={1}>{session?.server === 'demo' ? 'Demo (pa server)' : session?.server}</Text>
           </View>
@@ -167,7 +169,8 @@ export default function SettingsScreen() {
         </Card>
       </FadeIn>
 
-      <FadeIn delay={160}>
+      {/* A build with the key built in has no sign-in screen to go back to, so there is nothing to sign out of. */}
+      {!builtIn && <FadeIn delay={160}>
         <Button title={confirmingExit ? 'Shtypni sërish për të dalë' : 'Dil'} icon={LogOut}
                 variant="danger" loading={busy === 'logout'} onPress={logout} style={{ marginTop: space.xl }} />
         {confirmingExit && (
@@ -175,7 +178,7 @@ export default function SettingsScreen() {
             Njoftimet do të ndalen në këtë telefon.
           </Text>
         )}
-      </FadeIn>
+      </FadeIn>}
     </ScrollView>
   );
 }

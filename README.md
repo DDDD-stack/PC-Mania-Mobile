@@ -6,6 +6,26 @@ notifications.
 
 It talks to the PCMania Spring Boot server through the token API at `/api/v1` (see the server's README).
 
+## The owner's build: no sign-in
+
+This app is only used by the shop's owner, so the build that goes on the phone has the server address
+and a key built in and opens straight to the orders and earnings; there is no sign-in and no "Dil".
+Both come from `.env.local`, which is git-ignored (see `.env.example`):
+
+```
+EXPO_PUBLIC_SERVER_URL=https://pcmania.onrender.com
+EXPO_PUBLIC_API_KEY=<48 random characters>
+```
+
+The key must equal `MOBILE_API_KEY` on the server (Render › Environment). If they differ, the app says
+so on the dashboard ("Serveri nuk e pranon çelësin e aplikacionit"). If the phone is lost, change
+`MOBILE_API_KEY` on Render and that copy stops working at once, then build again with a new key.
+
+Anyone holding the APK can read the key out of it, which is why the APK is only downloadable from the
+website's admin (**Admin › Aplikacioni**) and never committed.
+
+Without `.env.local` (Expo Go, a fresh clone) the app shows the old sign-in screen instead.
+
 ## Installing the APK
 
 1. Copy `PCMania-Admin.apk` to the phone and open it. Android asks to allow installs from that source once.
@@ -43,6 +63,10 @@ cd android
 ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a
 # → android/app/build/outputs/apk/release/app-release.apk
 ```
+
+**After changing `.env.local`, delete Metro's cache before building** (`%TEMP%\metro-cache` on
+Windows, `$TMPDIR/metro-cache` elsewhere). Metro caches transformed code including the inlined
+`EXPO_PUBLIC_` values, so otherwise the APK can ship the previous address or key.
 
 The release build is signed with the default debug keystore, which is fine for installing directly on your own
 phones. To publish on Google Play, create an upload keystore and configure release signing first.

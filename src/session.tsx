@@ -3,6 +3,7 @@ import { Platform } from 'react-native';
 import type { Api } from './api/types';
 import { ApiError, createApi, login as apiLogin, type Session } from './api/client';
 import { KEYS, storage } from './storage';
+import { builtInSession } from './config';
 
 type SessionState = {
   ready: boolean;
@@ -12,12 +13,15 @@ type SessionState = {
   signOut: () => Promise<void>;
   /** Bumped when data changed elsewhere (e.g. a new order arrived) so screens can refetch. */
   dataVersion: number;
+  /** True when the address and key are built in: there is no sign-in and no signing out. */
+  builtIn: boolean;
   invalidate: () => void;
 };
 
 const Ctx = createContext<SessionState | null>(null);
 
 export async function loadStoredSession(): Promise<Session | null> {
+  if (builtInSession) return builtInSession;
   const raw = await storage.get(KEYS.session);
   const token = await storage.getSecret('pcmania.token');
   if (!raw || !token) return null;
@@ -62,7 +66,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   const api = useMemo<Api | null>(() => {
     if (!session) return null;
     const inner = createApi(session);
-    // Any 401 means the token was revoked or expired: drop back to the login screen.
+    const builtIn = session === builtInSession;
     return new Proxy(inner, {
       get(target, prop: keyof Api) {
         const fn = target[prop] as (...args: unknown[]) => Promise<unknown>;
@@ -70,7 +74,13 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
           try {
             return await fn(...args);
           } catch (e) {
-            if (e instanceof ApiError && e.status === 401 && prop !== 'logout') clear();
+            if (e instanceof ApiError && e.status === 401 && prop !== 'logout') {
+              // A built-in key that is refused means the server's MOBILE_API_KEY differs from the one
+              // in this build. There is no sign-in screen to fall back to, so say what to fix.
+              if (builtIn) throw new ApiError(401, 'Serveri nuk e pranon çelësin e aplikacionit. Kontrolloni MOBILE_API_KEY në Render.');
+              // Otherwise the token was revoked or expired: drop back to the login screen.
+              clear();
+            }
             throw e;
           }
         };
@@ -90,7 +100,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   const invalidate = useCallback(() => setDataVersion((v) => v + 1), []);
 
   return (
-    <Ctx.Provider value={{ ready, session, api, signIn, signOut, dataVersion, invalidate }}>
+    <Ctx.Provider value={{ ready, session, api, signIn, signOut, dataVersion, invalidate, builtIn: session != null && session === builtInSession }}>
       {children}
     </Ctx.Provider>
   );
