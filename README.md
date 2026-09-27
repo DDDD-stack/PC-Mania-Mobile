@@ -13,7 +13,7 @@ and a key built in and opens straight to the orders and earnings; there is no si
 Both come from `.env.local`, which is git-ignored (see `.env.example`):
 
 ```
-EXPO_PUBLIC_SERVER_URL=https://pcmania.onrender.com
+EXPO_PUBLIC_SERVER_URL=https://pc-mania.onrender.com
 EXPO_PUBLIC_API_KEY=<48 random characters>
 ```
 

@@ -61,7 +61,7 @@ export default function LoginScreen() {
             <FadeIn delay={120}>
               <Animated.View style={[styles.card, { transform: [{ translateX: shake }] }]}>
                 <Field icon={Server} label="Serveri" value={server} onChangeText={setServer}
-                       placeholder="pcmania.onrender.com ose 192.168.1.10:8070" autoCapitalize="none" keyboardType="url" />
+                       placeholder="pc-mania.onrender.com ose 192.168.1.10:8070" autoCapitalize="none" keyboardType="url" />
                 <Field icon={User} label="Përdoruesi" value={username} onChangeText={setUsername} autoCapitalize="none" />
                 <Field icon={Lock} label="Fjalëkalimi" value={password} onChangeText={setPassword} secureTextEntry
                        onSubmitEditing={() => submit()} returnKeyType="go" />
