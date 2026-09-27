@@ -57,9 +57,20 @@ export async function checkForNewOrders(api: Api): Promise<{ newCount: number; p
   return { newCount: 1, pendingCount, latestOrderId: latest };
 }
 
+/**
+ * 01:00-06:00 on the phone's clock. The site sleeps then to stay within Render's free hours (KeepAwake
+ * on the server, KEEP_AWAKE_FROM / KEEP_AWAKE_UNTIL), and a background check would wake it for nothing.
+ * Orders placed overnight are reported by the first check after 06:00.
+ */
+export function inQuietHours(now: Date = new Date()): boolean {
+  const hour = now.getHours();
+  return hour >= 1 && hour < 6;
+}
+
 // Must be defined at module scope so Android can run it while the app is closed.
 if (supported) {
   TaskManager.defineTask(ORDER_CHECK_TASK, async () => {
+    if (inQuietHours()) return BackgroundTask.BackgroundTaskResult.Success;
     try {
       const session = await loadStoredSession();
       if (!session) return BackgroundTask.BackgroundTaskResult.Success;

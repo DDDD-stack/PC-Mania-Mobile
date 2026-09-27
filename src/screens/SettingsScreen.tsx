@@ -135,7 +135,7 @@ export default function SettingsScreen() {
               {notify ? <Bell size={18} color={colors.textMuted} /> : <BellOff size={18} color={colors.textMuted} />}
               <View style={{ flex: 1 }}>
                 <Text style={font.body}>Njoftim për porosi të reja</Text>
-                <Text style={font.small}>Kontrollon çdo 30 sek. kur aplikacioni është hapur, rreth çdo 35 min kur është mbyllur.</Text>
+                <Text style={font.small}>Kontrollon çdo 30 sek. kur aplikacioni është hapur, rreth çdo 35 min kur është mbyllur (jo nga 01:00 deri në 06:00, kur faqja pushon).</Text>
               </View>
             </View>
             <Switch value={notify} onValueChange={toggleNotify} trackColor={{ true: colors.accent, false: '#cbd5e1' }} thumbColor={colors.white} />
